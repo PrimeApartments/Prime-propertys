@@ -1,0 +1,8 @@
+# Query: propertyCard.innerHTML
+# ContextLines: 1
+
+1 result - 1 file
+
+frontend\property.html:
+  31  
+  33    <img src="http://localhost:5000/${property.images[0]}">

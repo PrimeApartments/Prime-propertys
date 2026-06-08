@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>prime Property - Home</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <h1>prime Property</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="listings.html">Listings</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="search-box">
+    <select id="location">
+      <option value="">Select Location</option>
+      <option value="Midrand">Midrand</option>
+      <option value="Sandton">Sandton</option>
+      <option value="Pretoria">Pretoria</option>
+      <option value="Kempton Park">Kempton Park</option>
+      <option value="Germiston">Germiston</option>
+      <option value="Braamfontein">Braamfontein</option>
+      <option value="Rosebank">Rosebank</option>
+      <option value="Fourways">Fourways</option>
+      <option value="Randburg">Randburg</option>
+      <option value="suninghill">suninghill</option>
+     </select>
+
+    <input type="number" id="minPrice" placeholder="Min Price">
+    <input type="number" id="maxPrice" placeholder="Max Price">
+
+    <button onclick="searchProperties()">Search</button>
+  </div>
+</section>
+
+<div class="container">
+  <h2>Featured Properties</h2>
+
+<div id="properties"></div>
+  <h2>Latest Properties</h2>
+  <br>
+  <div id="latestProperties" class="grid"></div>
+</div>
+
+<footer>
+  <p>© 2022 prime Property </p>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

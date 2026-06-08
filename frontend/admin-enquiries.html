@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Enquiries</title>
+
+<style>
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f2f2f2;
+  margin:0;
+}
+
+header{
+  background:#072b52;
+  color:white;
+  padding:20px;
+}
+
+header a{
+  color:white;
+  text-decoration:none;
+  margin-right:20px;
+}
+
+.container{
+  width:90%;
+  margin:auto;
+  padding:20px;
+}
+
+.enquiry-card{
+  background:white;
+  padding:20px;
+  margin-bottom:20px;
+  border-radius:10px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+button{
+  padding:10px;
+  border:none;
+  cursor:pointer;
+  border-radius:5px;
+}
+
+.delete-btn{
+  background:red;
+  color:white;
+}
+
+</style>
+
+</head>
+<body>
+
+<header>
+
+  <h1>Admin Enquiries</h1>
+
+  <a href="admin.html">Admin</a>
+
+  <a href="index.html">Home</a>
+
+</header>
+
+<div class="container">
+
+  <h2>Customer Enquiries</h2>
+
+  <div id="enquiries"></div>
+
+</div>
+
+<script>
+
+const enquiriesDiv =
+document.getElementById("enquiries");
+
+async function loadEnquiries() {
+
+  const token =
+  localStorage.getItem("token");
+
+  if(!token){
+
+    alert("Login first");
+
+    window.location.href =
+    "admin.html";
+
+    return;
+
+  }
+
+  try {
+
+    const response =
+    await fetch(
+
+      "http://localhost:5000/api/enquiries",
+
+      {
+        headers:{
+          Authorization:
+          `Bearer ${token}`
+        }
+      }
+
+    );
+
+    const enquiries =
+    await response.json();
+
+    enquiriesDiv.innerHTML = "";
+
+    enquiries.forEach(enquiry => {
+
+      enquiriesDiv.innerHTML += `
+
+        <div class="enquiry-card">
+
+          <h3>
+            ${enquiry.propertyTitle}
+          </h3>
+
+          <p>
+            <strong>Name:</strong>
+            ${enquiry.name}
+          </p>
+
+          <p>
+            <strong>Email:</strong>
+            ${enquiry.email}
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            ${enquiry.phone || "-"}
+          </p>
+
+          <p>
+            <strong>Message:</strong>
+            ${enquiry.message}
+          </p>
+
+          <p>
+
+  <strong>Status:</strong>
+
+  ${enquiry.status}
+
+</p>
+
+<button
+  onclick="markContacted('${enquiry._id}')"
+>
+
+  Mark as Contacted
+
+</button>
+
+<button
+  class="delete-btn"
+  onclick="deleteEnquiry('${enquiry._id}')"
+>
+
+  Delete
+
+</button>
+
+        </div>
+
+      `;
+
+    });
+
+  } catch(error){
+
+    console.log(error);
+
+  }
+
+}
+
+async function markContacted(id){
+
+  console.log("Button clicked:", id);
+
+  const token =
+  localStorage.getItem("token");
+
+  const response = await fetch(
+
+    `http://localhost:5000/api/enquiries/${id}/contacted`,
+
+    {
+      method: "PUT",
+
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+  );
+
+  const data = await response.json();
+
+  console.log(data);
+
+  alert("Contacted updated");
+
+  loadEnquiries();
+
+}
+
+async function deleteEnquiry(id){
+
+  const token =
+  localStorage.getItem("token");
+
+  if(!confirm(
+    "Delete this enquiry?"
+  )) return;
+
+  await fetch(
+
+    `http://localhost:5000/api/enquiries/${id}`,
+
+    {
+      method:"DELETE",
+
+      headers:{
+        Authorization:
+        `Bearer ${token}`
+      }
+    }
+
+  );
+
+  loadEnquiries();
+
+}
+
+loadEnquiries();
+
+</script>
+
+</body>
+</html>

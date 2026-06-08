@@ -1,0 +1,245 @@
+<!-- frontend/add-property.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Add Property</title>
+
+  <style>
+    body{
+      font-family: Arial;
+      background:#f5f5f5;
+      padding:40px;
+    }
+
+    .container{
+      max-width:700px;
+      margin:auto;
+      background:white;
+      padding:30px;
+      border-radius:10px;
+    }
+
+    input,
+    textarea,
+    select{
+      width:100%;
+      padding:12px;
+      margin-top:10px;
+      margin-bottom:20px;
+      border:1px solid #ccc;
+      border-radius:6px;
+    }
+
+    button{
+      width:100%;
+      padding:14px;
+      background:#e53935;
+      color:white;
+      border:none;
+      border-radius:6px;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    button:hover{
+      background:#c62828;
+    }
+
+    h1{
+      text-align:center;
+    }
+
+    #message{
+      text-align:center;
+      margin-top:20px;
+      font-weight:bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Add Property</h1>
+
+    <form id="propertyForm">
+
+      <input
+        type="text"
+        id="title"
+        placeholder="Property Title"
+        required
+      />
+
+      <input
+        type="text"
+        id="location"
+        placeholder="Location"
+        required
+      />
+
+      <select id="propertyType" required>
+        <option value="">Select Property Type</option>
+        <option value="House">House</option>
+        <option value="Apartment">Apartment</option>
+        <option value="Townhouse">Townhouse</option>
+      </select>
+
+      <input
+        type="number"
+        id="price"
+        placeholder="Price"
+        required
+      />
+
+      <input
+        type="number"
+        id="bedrooms"
+        placeholder="Bedrooms"
+        required
+      />
+
+      <input
+        type="number"
+        id="bathrooms"
+        placeholder="Bathrooms"
+        required
+      />
+
+      <textarea
+        id="description"
+        rows="5"
+        placeholder="Description"
+        required
+      ></textarea>
+
+      <!-- IMPORTANT -->
+      <input
+        type="file"
+        id="images"
+        name="images"
+        multiple
+        required
+      />
+
+      <button type="submit">
+        Upload Property
+      </button>
+
+    </form>
+
+    <p id="message"></p>
+
+  </div>
+
+  <script>
+
+    const form = document.getElementById("propertyForm");
+
+    form.addEventListener("submit", async (e) => {
+
+      e.preventDefault();
+
+      try {
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          alert("Please login first");
+          window.location.href = "login.html";
+          return;
+        }
+
+        const formData = new FormData();
+
+        formData.append(
+          "title",
+          document.getElementById("title").value
+        );
+
+        formData.append(
+          "location",
+          document.getElementById("location").value
+        );
+
+        formData.append(
+          "propertyType",
+          document.getElementById("propertyType").value
+        );
+
+        formData.append(
+          "price",
+          document.getElementById("price").value
+        );
+
+        formData.append(
+          "bedrooms",
+          document.getElementById("bedrooms").value
+        );
+
+        formData.append(
+          "bathrooms",
+          document.getElementById("bathrooms").value
+        );
+
+        formData.append(
+          "description",
+          document.getElementById("description").value
+        );
+
+        // IMPORTANT
+        const images = document.getElementById("images");
+
+        for (let i = 0; i < images.files.length; i++) {
+
+          formData.append(
+            "images",
+            images.files[i]
+          );
+        }
+
+        const response = await fetch(
+          "http://localhost:5000/api/properties",
+          {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + token
+            },
+            body: formData
+          }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+
+          document.getElementById("message").innerHTML =
+            "✅ Property uploaded successfully";
+
+          form.reset();
+
+        } else {
+
+          document.getElementById("message").innerHTML =
+            "❌ " + data.message;
+        }
+
+      } catch (error) {
+
+        console.log(error);
+
+        document.getElementById("message").innerHTML =
+          "❌ Upload failed";
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>

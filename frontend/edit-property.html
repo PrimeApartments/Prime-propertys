@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+
+<title>Edit Property</title>
+
+<style>
+
+body{
+  font-family:Arial;
+  padding:20px;
+}
+
+input,
+textarea{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+}
+
+button{
+  padding:10px 20px;
+}
+
+</style>
+
+</head>
+<body>
+
+<h1>Edit Property</h1>
+
+<form id="editForm">
+
+  <input
+    type="text"
+    id="title"
+    placeholder="Title"
+  >
+
+  <input
+    type="text"
+    id="location"
+    placeholder="Location"
+  >
+
+  <input
+    type="number"
+    id="price"
+    placeholder="Price"
+  >
+
+  <input
+    type="number"
+    id="bedrooms"
+    placeholder="Bedrooms"
+  >
+
+  <input
+    type="number"
+    id="bathrooms"
+    placeholder="Bathrooms"
+  >
+
+  <textarea
+    id="description"
+    placeholder="Description"
+  ></textarea>
+
+  <button type="submit">
+
+    Save Changes
+
+  </button>
+
+</form>
+
+<script>
+
+const API_URL =
+"http://localhost:5000/api/properties";
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const id =
+params.get("id");
+
+async function loadProperty(){
+
+  const response =
+  await fetch(
+    `${API_URL}/${id}`
+  );
+
+  const property =
+  await response.json();
+
+  document.getElementById(
+    "title"
+  ).value =
+  property.title;
+
+  document.getElementById(
+    "location"
+  ).value =
+  property.location;
+
+  document.getElementById(
+    "price"
+  ).value =
+  property.price;
+
+  document.getElementById(
+    "bedrooms"
+  ).value =
+  property.bedrooms;
+
+  document.getElementById(
+    "bathrooms"
+  ).value =
+  property.bathrooms;
+
+  document.getElementById(
+    "description"
+  ).value =
+  property.description;
+
+}
+
+document
+.getElementById("editForm")
+.addEventListener(
+"submit",
+async (e)=>{
+
+  e.preventDefault();
+
+  const token =
+  localStorage.getItem("token");
+
+  await fetch(
+
+    `${API_URL}/${id}`,
+
+    {
+
+      method:"PUT",
+
+      headers:{
+
+        "Content-Type":
+        "application/json",
+
+        Authorization:
+        `Bearer ${token}`
+
+      },
+
+      body:JSON.stringify({
+
+        title:
+        document.getElementById(
+          "title"
+        ).value,
+
+        location:
+        document.getElementById(
+          "location"
+        ).value,
+
+        price:
+        document.getElementById(
+          "price"
+        ).value,
+
+        bedrooms:
+        document.getElementById(
+          "bedrooms"
+        ).value,
+
+        bathrooms:
+        document.getElementById(
+          "bathrooms"
+        ).value,
+
+        description:
+        document.getElementById(
+          "description"
+        ).value
+
+      })
+
+    }
+
+  );
+
+  alert(
+    "Property updated!"
+  );
+
+});
+
+loadProperty();
+
+</script>
+
+</body>
+</html>

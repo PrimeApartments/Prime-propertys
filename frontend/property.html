@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Property Details</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+  font-family:Arial,sans-serif;
+  margin:0;
+  background:#f2f2f2;
+}
+
+header{
+  background:#072b52;
+  color:white;
+  padding:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header a{
+  color:white;
+  text-decoration:none;
+  margin-left:20px;
+}
+
+.details-container{
+  width:90%;
+  max-width:1000px;
+  margin:30px auto;
+  background:white;
+  padding:20px;
+  border-radius:10px;
+}
+
+#mainImage{
+  width:100%;
+  height:500px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+#thumbnails{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+
+#thumbnails img{
+  width:120px;
+  height:80px;
+  object-fit:cover;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.price{
+  color:green;
+  font-size:28px;
+  font-weight:bold;
+}
+
+.whatsapp-btn{
+  display:inline-block;
+  background:#25D366;
+  color:white;
+  text-decoration:none;
+  padding:12px 20px;
+  border-radius:5px;
+  margin:20px 0;
+  font-weight:bold;
+}
+
+form{
+  margin-top:30px;
+}
+
+input,
+textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border:1px solid #ddd;
+  border-radius:5px;
+}
+
+button{
+  background:#072b52;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+footer{
+  background:#072b52;
+  color:white;
+  text-align:center;
+  padding:20px;
+  margin-top:40px;
+}
+
+</style>
+
+</head>
+<body>
+
+<header>
+
+  <h1>Prime Property</h1>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="listings.html">Listings</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+
+</header>
+
+<div class="details-container">
+
+  <div id="gallery">
+
+    <img
+      id="mainImage"
+      src=""
+      alt="Property Image"
+    >
+
+    <div id="thumbnails"></div>
+
+  </div>
+
+  <h2 id="title"></h2>
+
+  <p id="location"></p>
+
+  <p
+    class="price"
+    id="price"
+  ></p>
+
+  <p id="rooms"></p>
+
+<p>
+  <strong>Status:</strong>
+  <span id="status"></span>
+</p>
+
+<p id="description"></p>
+
+  <a
+    id="whatsappBtn"
+    class="whatsapp-btn"
+    target="_blank"
+  >
+    Contact on WhatsApp
+  </a>
+
+  <h3>Contact Agent</h3>
+
+  <form id="enquiryForm">
+
+    <input
+      type="text"
+      id="name"
+      placeholder="Your Name"
+      required
+    >
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Your Email"
+      required
+    >
+
+    <input
+      type="text"
+      id="phone"
+      placeholder="Your Phone Number"
+    >
+
+    <textarea
+      id="message"
+      rows="5"
+      placeholder="Message"
+      required
+    ></textarea>
+
+    <button type="submit">
+      Send Enquiry
+    </button>
+
+  </form>
+
+</div>
+
+<footer>
+
+  <p>
+    © 2026 Prime Property
+  </p>
+
+</footer>
+
+<script src="js/property.js"></script>
+
+</body>
+</html>

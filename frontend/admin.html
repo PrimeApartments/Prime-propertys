@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Admin Panel</title>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1>Prime Property Admin</h1>
+
+    <nav>
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="listings.html">
+        Listings
+      </a>
+
+    </nav>
+
+  </header>
+
+  <div class="container">
+
+    <!-- LOGIN -->
+
+    <h2>Admin Login</h2>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Email"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+    >
+
+    <button onclick="login()">
+      Login
+    </button>
+
+    <br><br>
+
+    <!-- ADD PROPERTY -->
+
+    <h2>Add Property</h2>
+
+    <form id="propertyForm">
+
+      <input
+        type="text"
+        id="title"
+        placeholder="Property Title"
+        required
+      >
+
+      <input
+        type="text"
+        id="location"
+        placeholder="Location"
+        required
+      >
+
+      <input
+        type="number"
+        id="price"
+        placeholder="Price"
+        required
+      >
+
+      <input
+        type="number"
+        id="bedrooms"
+        placeholder="Bedrooms"
+      >
+
+      <input
+        type="number"
+        id="bathrooms"
+        placeholder="Bathrooms"
+      >
+
+      <label>Property Status</label>
+
+<select id="status">
+
+  <option value="Available">
+    Available
+  </option>
+
+  <option value="Reserved">
+    Reserved
+  </option>
+
+  <option value="Sold">
+    Sold
+  </option>
+
+  <option value="Rented">
+    Rented
+  </option>
+
+</select>
+
+<br><br>
+
+      <textarea
+        id="description"
+        placeholder="Description"
+      ></textarea>
+
+      <!-- IMPORTANT -->
+
+      <input
+        type="file"
+        id="images"
+        name="images"
+        multiple
+      >
+
+      <button type="submit">
+        Upload Property
+      </button>
+
+    </form>
+
+  </div>
+
+  <script>
+
+    // =========================
+    // LOGIN
+    // =========================
+
+    async function login() {
+
+      const email =
+      document.getElementById("email").value;
+
+      const password =
+      document.getElementById("password").value;
+
+      try {
+
+        const response = await fetch(
+
+          "http://localhost:5000/api/auth/login",
+
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+              "application/json"
+            },
+
+            body: JSON.stringify({
+              email,
+              password
+            })
+
+          }
+
+        );
+
+        const data =
+        await response.json();
+
+        if (response.ok) {
+
+          localStorage.setItem(
+            "token",
+            data.token
+          );
+
+          alert("Login successful");
+
+        } else {
+
+          alert(data.message);
+
+        }
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    }
+
+    // =========================
+    // ADD PROPERTY
+    // =========================
+
+    document
+    .getElementById("propertyForm")
+    .addEventListener(
+
+      "submit",
+
+      async function (e) {
+
+        e.preventDefault();
+
+        const token =
+        localStorage.getItem("token");
+
+        if (!token) {
+
+          alert("Please login first");
+
+          return;
+
+        }
+
+        const formData =
+        new FormData();
+
+        formData.append(
+          "title",
+          document.getElementById("title").value
+        );
+
+        formData.append(
+          "location",
+          document.getElementById("location").value
+        );
+
+        formData.append(
+          "price",
+          document.getElementById("price").value
+        );
+
+        formData.append(
+          "bedrooms",
+          document.getElementById("bedrooms").value
+        );
+
+        formData.append(
+  "bathrooms",
+  document.getElementById("bathrooms").value
+);
+
+formData.append(
+  "status",
+  document.getElementById("status").value
+);
+
+formData.append(
+  "description",
+  document.getElementById("description").value
+);
+
+        // IMAGES
+
+        const imageFiles =
+        document.getElementById("images").files;
+
+        for (
+          let i = 0;
+          i < imageFiles.length;
+          i++
+        ) {
+
+          formData.append(
+            "images",
+            imageFiles[i]
+          );
+
+        }
+
+        try {
+
+          const response =
+          await fetch(
+
+            "http://localhost:5000/api/properties",
+
+            {
+              method: "POST",
+
+              headers: {
+
+                Authorization:
+                `Bearer ${token}`
+
+              },
+
+              body: formData
+
+            }
+
+          );
+
+          const data =
+          await response.json();
+
+          if (response.ok) {
+
+            alert(
+              "Property uploaded successfully"
+            );
+
+            document
+            .getElementById("propertyForm")
+            .reset();
+
+          } else {
+
+            alert(data.message);
+
+          }
+
+        } catch (error) {
+
+          console.log(error);
+
+        }
+
+      }
+
+    );
+
+  </script>
+
+</body>
+
+<a href="admin-enquiries.html">
+  View Enquiries
+</a>
+
+</html>
