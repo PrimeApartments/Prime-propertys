@@ -61,7 +61,6 @@ async function deleteProperty(id) {
     console.log(error);
 
     alert("❌ Delete failed");
-
-  }
+    
 
 }
