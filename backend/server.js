@@ -81,6 +81,9 @@ app.get("/", (req, res) => {
 // DATABASE CONNECTION
 // ======================
 
+console.log("MONGO_URI EXISTS:", !!process.env.MONGO_URI);
+console.log("MONGO_URI STARTS WITH:", process.env.MONGO_URI?.substring(0, 20));
+
 mongoose.connect(
   process.env.MONGO_URI
 )
