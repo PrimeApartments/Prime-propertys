@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api/properties";
+const API_URL = "https://prime-propertys.onrender.com/api/properties";
 
 async function loadLatestProperties() {
 
@@ -23,7 +23,7 @@ async function loadLatestProperties() {
 
         imagesHTML = `
           <img
-            src="http://localhost:5000/${property.images[0]}"
+            src="https://prime-propertys.onrender.com/${property.images[0]}"
             style="
               width:100%;
               height:250px;

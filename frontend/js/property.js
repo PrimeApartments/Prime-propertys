@@ -1,8 +1,8 @@
 const API_URL =
-"http://localhost:5000/api/properties";
+"https://prime-propertys.onrender.com/api/properties";
 
 const ENQUIRY_URL =
-"http://localhost:5000/api/enquiries";
+"https://prime-propertys.onrender.com/api/enquiries";
 
 function getId() {
 
@@ -111,7 +111,7 @@ statusElement.style.fontWeight =
     ) {
 
       mainImage.src =
-      `http://localhost:5000/${property.images[0]}`;
+      `https://prime-propertys.onrender.com/${property.images[0]}`;
 
     }
 
@@ -138,7 +138,7 @@ statusElement.style.fontWeight =
           );
 
           thumb.src =
-          `http://localhost:5000/${image}`;
+          `https://prime-propertys.onrender.com/${image}`;
 
           thumb.style.width =
           "120px";
@@ -159,7 +159,7 @@ statusElement.style.fontWeight =
           function () {
 
             mainImage.src =
-            `http://localhost:5000/${image}`;
+            `https://prime-propertys.onrender.com/${image}`;
 
           };
 

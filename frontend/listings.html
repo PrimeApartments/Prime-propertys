@@ -156,7 +156,7 @@ async function fetchProperties(){
 
     const response =
     await fetch(
-      "http://localhost:5000/api/properties"
+      "https://prime-propertys.onrender.com/api/properties"
     );
 
     const properties =
@@ -180,7 +180,7 @@ async function fetchProperties(){
         property.images.length > 0
       ){
         imageUrl =
-        `http://localhost:5000/${property.images[0]}`;
+        `https://prime-propertys.onrender.com/${property.images[0]}`;
       }
 
       card.innerHTML = `
@@ -272,7 +272,7 @@ async function deleteProperty(id){
     const response =
     await fetch(
 
-      `http://localhost:5000/api/properties/${id}`,
+      `https://prime-propertys.onrender.com/api/properties/${id}`,
 
       {
         method:"DELETE",

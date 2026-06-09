@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api/properties";
+const API_URL = "https://prime-propertys.onrender.com/api/properties";
 
 async function loadAdminListings() {
   const res = await fetch(API_URL);
@@ -9,7 +9,7 @@ async function loadAdminListings() {
 
   properties.forEach(property => {
     const img = property.images.length > 0 
-      ? `http://localhost:5000/${property.images[0]}`
+      ? `https://prime-propertys.onrender.com/${property.images[0]}`
       : "https://via.placeholder.com/400";
 
     adminDiv.innerHTML += `

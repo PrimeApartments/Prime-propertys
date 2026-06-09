@@ -5,4 +5,4 @@
 
 frontend\property.html:
   31  
-  33    <img src="http://localhost:5000/${property.images[0]}">
+  33    <img src="https://prime-propertys.onrender.com/${property.images[0]}">

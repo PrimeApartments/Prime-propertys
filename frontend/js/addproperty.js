@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api/properties";
+const API_URL = "https://prime-propertys.onrender.com/api/properties";
 
 document.getElementById("propertyForm").addEventListener("submit", async function(e) {
   e.preventDefault();

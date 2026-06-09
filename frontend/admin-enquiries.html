@@ -101,7 +101,7 @@ async function loadEnquiries() {
     const response =
     await fetch(
 
-      "http://localhost:5000/api/enquiries",
+      "https://prime-propertys.onrender.com/api/enquiries",
 
       {
         headers:{
@@ -195,7 +195,7 @@ async function markContacted(id){
 
   const response = await fetch(
 
-    `http://localhost:5000/api/enquiries/${id}/contacted`,
+    `https://prime-propertys.onrender.com/api/enquiries/${id}/contacted`,
 
     {
       method: "PUT",
@@ -228,7 +228,7 @@ async function deleteEnquiry(id){
 
   await fetch(
 
-    `http://localhost:5000/api/enquiries/${id}`,
+    `https://prime-propertys.onrender.com/api/enquiries/${id}`,
 
     {
       method:"DELETE",

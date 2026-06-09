@@ -6,7 +6,7 @@ async function fetchProperties() {
   try {
 
     const response = await fetch(
-      "http://localhost:5000/api/properties"
+      "https://prime-propertys.onrender.com/api/properties"
     );
 
     const data = await response.json();
@@ -40,7 +40,7 @@ async function fetchProperties() {
         imageHTML = `
 
           <img
-            src="http://localhost:5000/${property.images[0]}"
+            src="https://prime-propertys.onrender.com/${property.images[0]}"
             style="
               width:100%;
               max-width:400px;
