@@ -216,11 +216,9 @@ async function fetchProperties(){
           ${property.bathrooms || 0}
         </p>
 
-        <p>
-          ${property.description || ""}
-        </p>
+        <p>${property.description}</p>
 
-       ${localStorage.getItem("token") ? `
+${localStorage.getItem("token") ? `
 <button
   onclick="window.location.href='edit-property.html?id=${property._id}'"
 >
@@ -234,7 +232,7 @@ async function fetchProperties(){
   Delete
 </button>
 ` : ""}
-      `;
+`;
 
       listings.appendChild(card);
 
