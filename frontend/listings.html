@@ -220,20 +220,20 @@ async function fetchProperties(){
           ${property.description || ""}
         </p>
 
-        <button
-          class="edit-btn"
-          onclick="window.location.href='edit-property.html?id=${property._id}'"
-        >
-          Edit
-        </button>
+       ${localStorage.getItem("token") ? `
+<button
+  onclick="window.location.href='edit-property.html?id=${property._id}'"
+>
+  Edit
+</button>
 
-        <button
-          class="delete-btn"
-          onclick="deleteProperty('${property._id}')"
-        >
-          Delete
-        </button>
-
+<button
+  class="delete-btn"
+  onclick="deleteProperty('${property._id}')"
+>
+  Delete
+</button>
+` : ""}
       `;
 
       listings.appendChild(card);
