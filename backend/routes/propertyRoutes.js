@@ -2,37 +2,35 @@ const express = require("express");
 const router = express.Router();
 
 const multer = require("multer");
-const path = require("path");
+
+const cloudinary = require("../config/cloudinary");
+
+const {
+CloudinaryStorage
+} = require("multer-storage-cloudinary");
 
 const Property = require("../models/Property");
 const protect = require("../middleware/authMiddleware");
 
 // ======================
-// MULTER STORAGE
+// CLOUDINARY STORAGE
 // ======================
 
-const storage = multer.diskStorage({
-
-  destination: function (req, file, cb) {
-
-    cb(null, "uploads/");
-
-  },
-
-  filename: function (req, file, cb) {
-
-    cb(
-      null,
-      Date.now() +
-      path.extname(file.originalname)
-    );
-
-  }
-
+const storage = new CloudinaryStorage({
+cloudinary,
+params: {
+folder: "prime-property",
+allowed_formats: [
+"jpg",
+"jpeg",
+"png",
+"webp"
+]
+}
 });
 
 const upload = multer({
-  storage: storage
+storage
 });
 
 // ======================
@@ -41,23 +39,27 @@ const upload = multer({
 
 router.get("/", async (req, res) => {
 
-  try {
+try {
 
-    const properties =
-    await Property.find()
+```
+const properties =
+  await Property.find()
     .sort({ createdAt: -1 });
 
-    res.json(properties);
+res.json(properties);
+```
 
-  } catch (error) {
+} catch (error) {
 
-    console.log(error);
+```
+console.log(error);
 
-    res.status(500).json({
-      message: "Server error"
-    });
+res.status(500).json({
+  message: "Server error"
+});
+```
 
-  }
+}
 
 });
 
@@ -67,32 +69,36 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
 
-  try {
+try {
 
-    const property =
-    await Property.findById(
-      req.params.id
-    );
+```
+const property =
+  await Property.findById(
+    req.params.id
+  );
 
-    if (!property) {
+if (!property) {
 
-      return res.status(404).json({
-        message: "Property not found"
-      });
+  return res.status(404).json({
+    message: "Property not found"
+  });
 
-    }
+}
 
-    res.json(property);
+res.json(property);
+```
 
-  } catch (error) {
+} catch (error) {
 
-    console.log(error);
+```
+console.log(error);
 
-    res.status(500).json({
-      message: "Server error"
-    });
+res.status(500).json({
+  message: "Server error"
+});
+```
 
-  }
+}
 
 });
 
@@ -102,57 +108,59 @@ router.get("/:id", async (req, res) => {
 
 router.post(
 
-  "/",
+"/",
 
-  protect,
+protect,
 
-  upload.array("images", 10),
+upload.array("images", 10),
 
-  async (req, res) => {
+async (req, res) => {
 
-    try {
+```
+try {
 
-      const images =
-      req.files.map(file =>
-        file.path.replace(/\\/g, "/")
-      );
+  const images =
+    req.files.map(
+      file => file.path
+    );
 
-      const property =
-new Property({
+  const property =
+    new Property({
 
-  title: req.body.title,
+      title: req.body.title,
 
-  location: req.body.location,
+      location: req.body.location,
 
-  price: req.body.price,
+      price: req.body.price,
 
-  bedrooms: req.body.bedrooms,
+      bedrooms: req.body.bedrooms,
 
-  bathrooms: req.body.bathrooms,
+      bathrooms: req.body.bathrooms,
 
-  status: req.body.status,
+      status: req.body.status,
 
-  description: req.body.description,
+      description: req.body.description,
 
-  images: images
+      images: images
 
-});
+    });
 
-      await property.save();
+  await property.save();
 
-      res.status(201).json(property);
+  res.status(201).json(property);
 
-    } catch (error) {
+} catch (error) {
 
-      console.log(error);
+  console.log(error);
 
-      res.status(500).json({
-        message: "Server error"
-      });
+  res.status(500).json({
+    message: "Server error"
+  });
 
-    }
+}
+```
 
-  }
+}
 
 );
 
@@ -162,74 +170,79 @@ new Property({
 
 router.put(
 
-  "/:id",
+"/:id",
 
-  protect,
+protect,
 
-  upload.array("images", 10),
+upload.array("images", 10),
 
-  async (req, res) => {
+async (req, res) => {
 
-    try {
+```
+try {
 
-      const property =
-      await Property.findById(
-        req.params.id
-      );
+  const property =
+    await Property.findById(
+      req.params.id
+    );
 
-      if (!property) {
+  if (!property) {
 
-        return res.status(404).json({
-          message: "Property not found"
-        });
-
-      }
-
-      property.title =
-      req.body.title;
-
-      property.location =
-      req.body.location;
-
-      property.price =
-      req.body.price;
-
-      property.bedrooms =
-      req.body.bedrooms;
-
-      property.bathrooms =
-      req.body.bathrooms;
-
-      property.description =
-      req.body.description;
-
-      if (
-        req.files &&
-        req.files.length > 0
-      ) {
-
-        property.images =
-        req.files.map(file =>
-          file.path.replace(/\\/g, "/")
-        );
-
-      }
-
-      await property.save();
-
-      res.json(property);
-
-    } catch (error) {
-
-      console.log(error);
-
-      res.status(500).json({
-        message: "Server error"
-      });
-
-    }
+    return res.status(404).json({
+      message: "Property not found"
+    });
 
   }
+
+  property.title =
+    req.body.title;
+
+  property.location =
+    req.body.location;
+
+  property.price =
+    req.body.price;
+
+  property.bedrooms =
+    req.body.bedrooms;
+
+  property.bathrooms =
+    req.body.bathrooms;
+
+  property.description =
+    req.body.description;
+
+  property.status =
+    req.body.status;
+
+  if (
+    req.files &&
+    req.files.length > 0
+  ) {
+
+    property.images =
+      req.files.map(
+        file => file.path
+      );
+
+  }
+
+  await property.save();
+
+  res.json(property);
+
+} catch (error) {
+
+  console.log(error);
+
+  res.status(500).json({
+    message: "Server error"
+  });
+
+}
+```
+
+}
 
 );
 
@@ -239,33 +252,35 @@ router.put(
 
 router.delete(
 
-  "/:id",
+"/:id",
 
-  protect,
+protect,
 
-  async (req, res) => {
+async (req, res) => {
 
-    try {
+```
+try {
 
-      await Property.findByIdAndDelete(
-        req.params.id
-      );
+  await Property.findByIdAndDelete(
+    req.params.id
+  );
 
-      res.json({
-        message: "Property deleted"
-      });
+  res.json({
+    message: "Property deleted"
+  });
 
-    } catch (error) {
+} catch (error) {
 
-      console.log(error);
+  console.log(error);
 
-      res.status(500).json({
-        message: "Server error"
-      });
+  res.status(500).json({
+    message: "Server error"
+  });
 
-    }
+}
+```
 
-  }
+}
 
 );
 
