@@ -2,35 +2,41 @@ const express = require("express");
 const router = express.Router();
 
 const multer = require("multer");
-
-const cloudinary = require("../config/cloudinary");
-
-const {
-CloudinaryStorage
-} = require("multer-storage-cloudinary");
+const path = require("path");
 
 const Property = require("../models/Property");
 const protect = require("../middleware/authMiddleware");
 
 // ======================
-// CLOUDINARY STORAGE
+// MULTER STORAGE
 // ======================
 
-const storage = new CloudinaryStorage({
-cloudinary,
-params: {
-folder: "prime-property",
-allowed_formats: [
-"jpg",
-"jpeg",
-"png",
-"webp"
-]
+const storage = multer.diskStorage({
+
+destination: function (req, file, cb) {
+
+```
+cb(null, "uploads/");
+```
+
+},
+
+filename: function (req, file, cb) {
+
+```
+cb(
+  null,
+  Date.now() +
+  path.extname(file.originalname)
+);
+```
+
 }
+
 });
 
 const upload = multer({
-storage
+storage: storage
 });
 
 // ======================
@@ -120,8 +126,8 @@ async (req, res) => {
 try {
 
   const images =
-    req.files.map(
-      file => file.path
+    req.files.map(file =>
+      file.path.replace(/\\/g, "/")
     );
 
   const property =
@@ -221,8 +227,8 @@ try {
   ) {
 
     property.images =
-      req.files.map(
-        file => file.path
+      req.files.map(file =>
+        file.path.replace(/\\/g, "/")
       );
 
   }
