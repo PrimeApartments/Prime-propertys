@@ -108,7 +108,7 @@ router.post("/", protect, upload.any(), async (req, res) => {
 // UPDATE PROPERTY
 // ======================
 
-router.put("/:id", protect, upload.array("images", 10), async (req, res) => {
+router.put("/:id", protect, upload.any(), async (req, res) => {
   try {
     const property = await Property.findById(req.params.id);
 
