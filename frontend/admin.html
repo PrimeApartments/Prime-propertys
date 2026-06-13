@@ -205,9 +205,11 @@
 
       } catch (error) {
 
-        console.log(error);
+  console.error(error);
 
-      }
+  alert("Upload failed: " + error.message);
+
+}
 
     }
 
@@ -330,7 +332,8 @@ formData.append(
 
           } else {
 
-            alert(data.message);
+            alert("Server Error: " + JSON.stringify(data));
+console.log(data);
 
           }
 
