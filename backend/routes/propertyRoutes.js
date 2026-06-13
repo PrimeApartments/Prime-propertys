@@ -67,9 +67,15 @@ router.get("/:id", async (req, res) => {
 // ADD PROPERTY
 // ======================
 
-router.post("/", protect, upload.array("images", 10), async (req, res) => {
+router.post("/", protect, upload.any(), async (req, res) => {
   try {
-    const images = req.files ? req.files.map((file) => file.path) : [];
+
+    console.log("BODY:", req.body);
+    console.log("FILES:", req.files);
+
+    const images = req.files
+      ? req.files.map(file => file.path)
+      : [];
 
     const property = new Property({
       title: req.body.title,
@@ -79,17 +85,22 @@ router.post("/", protect, upload.array("images", 10), async (req, res) => {
       bathrooms: req.body.bathrooms,
       status: req.body.status || "Available",
       description: req.body.description,
-      images: images,
+      images
     });
 
     await property.save();
 
     res.status(201).json(property);
+
   } catch (error) {
-    console.log(error);
+
+    console.error("UPLOAD ERROR:");
+    console.error(error);
+
     res.status(500).json({
-      message: "Server error",
+      message: error.message
     });
+
   }
 });
 
