@@ -68,6 +68,8 @@ router.get("/:id", async (req, res) => {
 // ======================
 
 router.post("/", protect, upload.any(), async (req, res) => {
+  console.log("FILES:", req.files);
+console.log("BODY:", req.body);
   try {
 
     console.log("BODY:", req.body);
