@@ -69,9 +69,17 @@ router.get("/:id", async (req, res) => {
 // ADD PROPERTY
 // ======================
 
-router.post("/", protect, upload.any(), async (req, res) => {
-  console.log("FILES:", req.files);
-console.log("BODY:", req.body);
+router.post("/", protect, upload.array("images", 10), async (req, res) => {
+
+  console.log("UPLOAD ROUTE HIT");
+
+  console.log("BODY:", req.body);
+
+  console.log(
+    "FILES:",
+    req.files ? req.files.length : 0
+  );
+
   try {
 
     console.log("BODY:", req.body);
