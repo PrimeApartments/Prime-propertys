@@ -35,7 +35,7 @@ router.get("/", async (req, res) => {
     const properties = await Property.find().sort({ createdAt: -1 });
     res.json(properties);
   } catch (error) {
-    console.log(error);
+    console.error(JSON.stringify(error, null, 2));
     res.status(500).json({
       message: "Server error",
     });
@@ -58,7 +58,7 @@ router.get("/:id", async (req, res) => {
 
     res.json(property);
   } catch (error) {
-    console.log(error);
+    console.error(JSON.stringify(error, null, 2));
     res.status(500).json({
       message: "Server error",
     });
@@ -107,7 +107,7 @@ router.post("/", protect, upload.array("images", 10), async (req, res) => {
   } catch (error) {
 
     console.error("UPLOAD ERROR:");
-    console.error(error);
+    console.error(JSON.stringify(error, null, 2));
 
     res.status(500).json({
       message: error.message
@@ -146,7 +146,7 @@ router.put("/:id", protect, upload.any(), async (req, res) => {
 
     res.json(property);
   } catch (error) {
-    console.log(error);
+    console.error(JSON.stringify(error, null, 2));
     res.status(500).json({
       message: "Server error",
     });
@@ -165,7 +165,7 @@ router.delete("/:id", protect, async (req, res) => {
       message: "Property deleted",
     });
   } catch (error) {
-    console.log(error);
+    console.error(JSON.stringify(error, null, 2));
     res.status(500).json({
       message: "Server error",
     });
