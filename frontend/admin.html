@@ -157,28 +157,28 @@
     async function login() {
 
       const email =
-      document.getElementById("email").value;
+        document.getElementById("email").value;
 
       const password =
-      document.getElementById("password").value;
+        document.getElementById("password").value;
 
       try {
 
         const response = await fetch(
-  "https://prime-propertys.onrender.com/api/auth/login",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      email,
-      password
-    })
-  }
-);
+          "https://prime-propertys.onrender.com/api/auth/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              email,
+              password
+            })
+          }
+        );
 
-const data = await response.json();
+        const data = await response.json();
         if (response.ok) {
 
           localStorage.setItem(
@@ -196,11 +196,14 @@ const data = await response.json();
 
       } catch (error) {
 
-  console.error(error);
+        console.error("UPLOAD ERROR:", error);
 
-  alert("Upload failed: " + error.message);
+        alert(
+          "UPLOAD ERROR: " +
+            JSON.stringify(error, null, 2)
+        );
 
-}
+      }
 
     }
 
@@ -209,28 +212,19 @@ const data = await response.json();
     // =========================
 
     document
-    .getElementById("propertyForm")
-    .addEventListener(
-
-      "submit",
-
-      async function (e) {
+      .getElementById("propertyForm")
+      .addEventListener("submit", async function (e) {
 
         e.preventDefault();
 
-        const token =
-        localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
         if (!token) {
-
           alert("Please login first");
-
           return;
-
         }
 
-        const formData =
-        new FormData();
+        const formData = new FormData();
 
         formData.append(
           "title",
@@ -253,97 +247,81 @@ const data = await response.json();
         );
 
         formData.append(
-  "bathrooms",
-  document.getElementById("bathrooms").value
-);
+          "bathrooms",
+          document.getElementById("bathrooms").value
+        );
 
-formData.append(
-  "status",
-  document.getElementById("status").value
-);
+        formData.append(
+          "status",
+          document.getElementById("status").value
+        );
 
-formData.append(
-  "description",
-  document.getElementById("description").value
-);
-
-        // IMAGES
+        formData.append(
+          "description",
+          document.getElementById("description").value
+        );
 
         const imageFiles =
-        document.getElementById("images").files;
+          document.getElementById("images").files;
 
-        for (
-          let i = 0;
-          i < imageFiles.length;
-          i++
-        ) {
-
+        for (let i = 0; i < imageFiles.length; i++) {
           formData.append(
             "images",
             imageFiles[i]
           );
-
         }
 
         try {
 
-          const response =
-          await fetch(
-
+          const response = await fetch(
             "https://prime-propertys.onrender.com/api/properties",
-
             {
               method: "POST",
-
               headers: {
-
-                Authorization:
-                `Bearer ${token}`
-
+                Authorization: `Bearer ${token}`
               },
-
               body: formData
-
             }
-
           );
 
-          const data =
-          await response.json();
+          const text = await response.text();
+
+          console.log("STATUS:", response.status);
+          console.log("RESPONSE:", text);
 
           if (response.ok) {
 
-            alert(
-              "Property uploaded successfully"
-            );
+            alert("Property uploaded successfully");
 
             document
-            .getElementById("propertyForm")
-            .reset();
+              .getElementById("propertyForm")
+              .reset();
 
           } else {
 
-            alert("Server Error: " + JSON.stringify(data));
-console.log(data);
+            alert("Server Error: " + text);
 
           }
 
         } catch (error) {
 
-          console.log(error);
+          console.error(error);
+
+          alert(
+            "Upload failed: " +
+              error.message
+          );
 
         }
 
-      }
-
-    );
+      });
 
   </script>
 
-</body>
+  <a href="admin-enquiries.html">
+    View Enquiries
+  </a>
 
-<a href="admin-enquiries.html">
-  View Enquiries
-</a>
+</body>
 
 </html>
