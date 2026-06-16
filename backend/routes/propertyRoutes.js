@@ -35,10 +35,12 @@ router.get("/", async (req, res) => {
     const properties = await Property.find().sort({ createdAt: -1 });
     res.json(properties);
   } catch (error) {
-    console.error(JSON.stringify(error, null, 2));
+    console.error("FULL ERROR:");
+console.dir(error, { depth: null });
     res.status(500).json({
-      message: "Server error",
-    });
+  error: error.message,
+  stack: error.stack
+});
   }
 });
 
@@ -58,10 +60,12 @@ router.get("/:id", async (req, res) => {
 
     res.json(property);
   } catch (error) {
-    console.error(JSON.stringify(error, null, 2));
+    console.error("FULL ERROR:");
+console.dir(error, { depth: null });
     res.status(500).json({
-      message: "Server error",
-    });
+  error: error.message,
+  stack: error.stack
+});
   }
 });
 
@@ -109,10 +113,10 @@ router.post("/", protect, upload.array("images", 10), async (req, res) => {
     console.error("UPLOAD ERROR:");
     console.error(JSON.stringify(error, null, 2));
 
-    res.status(500).json({
-      message: error.message
-    });
-
+   res.status(500).json({
+  error: error.message,
+  stack: error.stack
+});
   }
 });
 
@@ -146,10 +150,12 @@ router.put("/:id", protect, upload.any(), async (req, res) => {
 
     res.json(property);
   } catch (error) {
-    console.error(JSON.stringify(error, null, 2));
+    console.error("FULL ERROR:");
+console.dir(error, { depth: null });
     res.status(500).json({
-      message: "Server error",
-    });
+  error: error.message,
+  stack: error.stack
+});
   }
 });
 
@@ -165,7 +171,8 @@ router.delete("/:id", protect, async (req, res) => {
       message: "Property deleted",
     });
   } catch (error) {
-    console.error(JSON.stringify(error, null, 2));
+    console.error("FULL ERROR:");
+console.dir(error, { depth: null });
     res.status(500).json({
       message: "Server error",
     });
