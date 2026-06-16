@@ -7,8 +7,18 @@ const propertySchema = new mongoose.Schema({
   bedrooms: { type: Number, required: true },
   bathrooms: { type: Number, required: true },
   description: { type: String, required: true },
+
+  status: {
+    type: String,
+    default: "Available"
+  },
+
   images: [{ type: String }],
-  createdAt: { type: Date, default: Date.now }
+
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model("Property", propertySchema);
