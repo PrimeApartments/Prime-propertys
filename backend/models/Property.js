@@ -8,60 +8,7 @@ const propertySchema = new mongoose.Schema({
   bathrooms: { type: Number, required: true },
   description: { type: String, required: true },
   images: [{ type: String }],
-  createdAt: { type: Date, default: Date.now },
-  status: {
-    type: String,
-    default: "Available"
-  }
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model("Property", propertySchema);
-
-async function deleteProperty(id) {
-
-  const confirmDelete = confirm(
-    "Are you sure you want to delete this property?"
-  );
-
-  if (!confirmDelete) return;
-
-  try {
-
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(
-
-      `http://localhost:5000/api/properties/${id}`,
-
-      {
-        method: "DELETE",
-
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-
-      alert("✅ Property deleted");
-
-      location.reload();
-
-    } else {
-
-      alert("❌ " + data.message);
-
-    }
-
-  } catch (error) {
-
-    console.log(error);
-
-    alert("❌ Delete failed");
-
-  }
-
-}
